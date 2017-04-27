@@ -1,0 +1,9 @@
+{
+  "capabilities": {
+    "browserName": "firefox",
+    "version": "",
+    "marionette": false,
+    "platform": "ANY",
+    "javascriptEnabled": true
+  }
+}
