@@ -28,6 +28,15 @@ class LoginPage(BasePage):
         page.verify_on_page()
         return page
 
+    def logged_in_at(self, link, auth):
+        self.get('https://q3.innotas.io')
+        for cookie in auth:
+            self.add_cookie(cookie.__dict__)
+        self.get(self.urls.get(link))
+        page = self._get_page(link)
+        page.verify_on_page()
+        return page
+
     def go_to(self, link):
         self.get(self.urls.get(link))
         page = self._get_page(link)
