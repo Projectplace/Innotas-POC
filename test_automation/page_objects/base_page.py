@@ -1,3 +1,4 @@
+import assertpy
 from basepage import BasePage as DriverPage
 
 
@@ -5,7 +6,10 @@ class BasePage(DriverPage):
 
     def __init__(self, driver):
         super(BasePage, self).__init__(driver)
-        self.driver.set_page_load_timeout(5)
+
+    @staticmethod
+    def assert_that(value):
+        return assertpy.assert_that(value)
 
     @staticmethod
     def get_compliant_locator(by, locator, params=None):

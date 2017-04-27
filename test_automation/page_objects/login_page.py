@@ -3,10 +3,11 @@ from test_automation.page_objects.base_page import BasePage
 
 class LoginPage(BasePage):
 
-    urls = {1: 'https://q3.innotas.io/home.pa?entityType=timesheet&id=1708586024',
-            2: '',
-            3: '',
-            4: ''}  # These would obviously have better names
+    urls = {'timesheets': 'https://{0}:{1}@q3.innotas.io/home.pa?entityType=timesheet&id=1708586024',
+            'project': 'https://{0}:{1}@q3.innotas.io/home.pa#%5BT5%5DT%2Fdyn%2Fproject%2FprojectInfo'
+                       '.pa%3Fx%3D1493236975819%26projectid%3D1535643530%26ssaView%3Dtrue',
+            'issue': 'https://{0}:{1}@q3.innotas.io/home.pa?entityType=issue&id=1538529793&tabIndex=0',
+            'issue_section': 'https://{0}:{1}@q3.innotas.io/home.pa#%5B%5DE%2Fentity%2Fissue%2F1538529793%2F5'}
 
     _username_locator = ('CSS_SELECTOR', '#login')
     _password_locator = ('CSS_SELECTOR', '#password')
@@ -22,14 +23,24 @@ class LoginPage(BasePage):
         return self
 
     def login_at(self, link, username, password):
-        self.get("https://www.google.com")
+        self.get(self.urls.get(link).format(username, password))
+        page = self._get_page(link)
+        page.verify_on_page()
+        return page
+
+    def go_to(self, link):
         self.get(self.urls.get(link))
-        alert = self.switch_to.alert
-        alert.authenticate(username, password)
+        page = self._get_page(link)
+        page.verify_on_page()
+        return page
 
-    def go_to_timesheets(self):
-        from test_automation.page_objects.timesheet_page import TimesheetPage
-
-        self.get(self.urls.get(1))
-        self.get_visible_element(self._timesheets_locator)
-        return TimesheetPage(self.driver)
+    def _get_page(self, link):
+        if link == 'timesheets':
+            from test_automation.page_objects.timesheet_page import TimesheetPage as Page
+        elif link == "project":
+            from test_automation.page_objects.project_page import ProjectPage as Page
+        elif link == 'issue':
+            from test_automation.page_objects.issue_page import IssuePage as Page
+        else:
+            from test_automation.page_objects.issue_page import IssueSectionPage as Page
+        return Page(self.driver)
