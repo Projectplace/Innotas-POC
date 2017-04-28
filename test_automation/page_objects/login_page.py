@@ -16,9 +16,7 @@ class LoginPage(BasePage):
 
     def login(self, username, password):
         self.get('https://q3.innotas.io/index.jsp')
-        self.enter_text(self._username_locator, username)
-        self.enter_text(self._password_locator, password)
-        self.click(self._login_button_locator)
+        self._do_login(username, password)
         self.get_visible_element(self._timesheets_locator)
         return self
 
@@ -37,11 +35,33 @@ class LoginPage(BasePage):
         page.verify_on_page()
         return page
 
+    def login_with_alert(self, link, username, password):
+        import selenium.common.exceptions as exc
+
+        self.set_page_load_timeout(2)
+        try:
+            self.get(self.urls.get(link))
+        except exc.TimeoutException:
+            pass
+        self.set_page_load_timeout(60)
+
+        alert = self.switch_to.alert
+        alert.dismiss()
+        self._do_login(username, password)
+        page = self._get_page(link)
+        page.verify_on_page()
+        return page
+
     def go_to(self, link):
         self.get(self.urls.get(link))
         page = self._get_page(link)
         page.verify_on_page()
         return page
+
+    def _do_login(self, username, password):
+        self.enter_text(self._username_locator, username)
+        self.enter_text(self._password_locator, password)
+        self.click(self._login_button_locator)
 
     def _get_page(self, link):
         if link == 'timesheets':

@@ -1,5 +1,6 @@
 import assertpy
 from basepage import BasePage as DriverPage
+from basepage.wait import ActionWait
 
 
 class BasePage(DriverPage):
@@ -10,6 +11,18 @@ class BasePage(DriverPage):
     @staticmethod
     def assert_that(value):
         return assertpy.assert_that(value)
+
+    def wait_for_element_text(self, locator, text, params=None, timeout=10):
+
+        def _do_wait():
+            elements = self.get_present_elements(locator, params, timeout=0)
+            for element in elements:
+                txt = self.get_text(element)
+                if txt is not None and text in txt:
+                    return True
+            return False
+
+        return ActionWait(timeout).until(_do_wait, "Element text was never populated!")
 
     @staticmethod
     def get_compliant_locator(by, locator, params=None):

@@ -28,6 +28,12 @@ def test_login_to_timesheets3(driver, do_auth):
         verify()
 
 
+def test_login_to_timesheets4(driver, creds):
+    LoginPage(driver).\
+        login_with_alert(link='timesheets', username=creds.username, password=creds.password).\
+        verify()
+
+
 # Scenario: User from Non-SSO Customer Following Anchor Link to a Project
 def test_login_to_project(driver, creds):
     LoginPage(driver).\
@@ -45,6 +51,12 @@ def test_login_to_project2(driver, creds):
 def test_login_to_project3(driver, do_auth):
     LoginPage(driver).\
         logged_in_at(link='project', auth=do_auth).\
+        verify()
+
+
+def test_login_to_project4(driver, creds):
+    LoginPage(driver).\
+        login_with_alert(link='project', username=creds.username, password=creds.password).\
         verify()
 
 
@@ -68,6 +80,12 @@ def test_login_to_issue3(driver, do_auth):
         verify()
 
 
+def test_login_to_issue4(driver, creds):
+    LoginPage(driver).\
+        login_with_alert(link='issue', username=creds.username, password=creds.password).\
+        verify()
+
+
 # Scenario: User from a Non-SSO Customer Follows an Anchor Link to an Issue Section
 def test_login_to_issue_section(driver, creds):
     LoginPage(driver).\
@@ -85,4 +103,10 @@ def test_login_to_issue_section2(driver, creds):
 def test_login_to_issue_section3(driver, do_auth):
     LoginPage(driver).\
         logged_in_at(link='issue_section', auth=do_auth).\
+        verify()
+
+
+def test_login_to_issue_section4(driver, creds):
+    LoginPage(driver).\
+        login_with_alert(link='issue_section', username=creds.username, password=creds.password).\
         verify()

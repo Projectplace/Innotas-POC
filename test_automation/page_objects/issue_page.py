@@ -10,6 +10,7 @@ class IssuePage(BasePage):
         self.get_visible_element(self._issue_locator)
 
     def verify(self):
+        self.wait_for_element_text(self._issue_title_locator, "Project Log")
         self.assert_that('Project Log: Outdated hardware causing difficulties during upgrade').\
             is_equal_to(self.get_text(self._issue_title_locator))
 
