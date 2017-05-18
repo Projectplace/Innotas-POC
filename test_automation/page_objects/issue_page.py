@@ -1,4 +1,4 @@
-from base_page import BasePage
+from test_automation.page_objects.base_page import BasePage
 
 
 class IssuePage(BasePage):

@@ -1,3 +1,4 @@
+import pytest
 from test_automation.page_objects.login_page import LoginPage
 
 # Feature: Arrive properly at various destinations after a login challenge
@@ -9,7 +10,11 @@ from test_automation.page_objects.login_page import LoginPage
 
 
 # Scenario: User from Non-SSO Customer Following Timesheet Links
-def test_login_to_timesheets(driver, creds):
+@pytest.mark.tags("indev")
+@pytest.mark.setup_data({'User': [{'name': 'bobo'}]})
+def test_login_to_timesheets(test_db, driver, creds):
+    user = test_db.get('User', 'bobo')
+    print("USER NAME", user.user_name)
     LoginPage(driver).\
         login(username=creds.username, password=creds.password).\
         go_to('timesheets').\
