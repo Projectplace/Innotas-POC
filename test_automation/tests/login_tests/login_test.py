@@ -8,12 +8,16 @@ from test_automation.page_objects.login_page import LoginPage
 # And the user follows this link in a fresh browser
 # And the user does not allow the browser to cache HTTP-Auth credentials (the native username/password box)
 
+module_setup_data = [{'User': [{'name': 'jimbo'}]}]  # Available for all functions in this module
+
 
 # Scenario: User from Non-SSO Customer Following Timesheet Links
 @pytest.mark.tags("indev")
-@pytest.mark.setup_data({'User': [{'name': 'bobo'}]})
+@pytest.mark.setup_data({'User': [{'name': 'bobo'}]})  # Only available for this function
 def test_login_to_timesheets(test_db, driver, creds):
     user = test_db.get('User', 'bobo')
+    print("USER NAME", user.user_name)
+    user = test_db.get('User', 'jimbo')
     print("USER NAME", user.user_name)
     LoginPage(driver).\
         login(username=creds.username, password=creds.password).\
