@@ -13,6 +13,6 @@ pytest-metadata==1.3.0
 pytest-selenium==1.9.1
 pytest-variables==1.6.0
 pytest-xdist==1.16.0
-requests==2.13.0
+requests==2.20.0
 selenium==3.3.3
 six==1.10.0
